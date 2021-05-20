@@ -138,6 +138,22 @@ function Employeesdetails({ navigation }) {
 function OrderList({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View>
+        <TouchableOpacity  
+       onPress={() => navigation.navigate("Orderdetails")}>
+        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+          1# Order1
+         
+           </Text>
+           </TouchableOpacity>
+           <TouchableOpacity
+           onPress={() => navigation.navigate("Orderdetails")}>
+        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+          
+           2# Order2
+           </Text>
+           </TouchableOpacity>
+      </View>
       <Button
         title="Go to order details"
         onPress={() => {
@@ -152,6 +168,7 @@ function OrderList({ navigation }) {
       />
       <Button
         title="Go back"
+        
         onPress={() => navigation.goBack()}
         style={{
           padding: 10,
@@ -166,6 +183,17 @@ function OrderList({ navigation }) {
 function Orderdetails({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+       <View>
+        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+          1# order1 Customer info:japan  orderdate :12,2,21 shipping :california
+    
+           </Text>
+      </View>
+      <View>
+        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+        2# order1 Customer info:japan  orderdate :12,2,21 shipping :california
+           </Text>
+      </View>
       <Button
         title="go back"
         onPress={() => navigation.goBack()}

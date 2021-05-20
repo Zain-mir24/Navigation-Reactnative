@@ -16,7 +16,7 @@ function Button(props) {
 }
 const styles=StyleSheet.create({
     buttonstyle:{
-    padding:10,borderRadius:20,marginTop:20,backgroundColor:"Orange"
+    padding:10,borderRadius:20,marginTop:20,backgroundColor:"orange"
     }
   })
 export default Button

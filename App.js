@@ -44,6 +44,12 @@ function HomeScreen({ navigation }) {
 function Productdetails({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View>
+        <Text>
+          1#product price is 100$
+          2# product price is 500$
+        </Text>
+      </View>
       <Button
         title="Go back"
         onPress={() => navigation.goBack()}
@@ -62,7 +68,10 @@ function productlist({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View>
-        <Text>1# product1 2# product2</Text>
+        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+          1# product1
+           2# product2
+           </Text>
       </View>
       <Button
         title="Go to productdetails"
@@ -91,6 +100,12 @@ function productlist({ navigation }) {
 function Employeesdetails({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+       <View>
+        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+          1# employee1 name: zain designation:engineer
+          2# emloyee2 name:arsalan designation:marketing
+           </Text>
+      </View>
       <Button
         title="Go back"
         onPress={() => navigation.goBack()}
@@ -151,6 +166,12 @@ function Orderdetails({ navigation }) {
 function Employeeslist({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <View>
+        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+          1# employee1 
+          2# emloyee2 
+           </Text>
+      </View>
       <Button
         title="go to employees details"
         onPress={() => {

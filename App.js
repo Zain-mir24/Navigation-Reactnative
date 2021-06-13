@@ -1,24 +1,30 @@
-import * as React from "react";
-import { View, Text,TouchableOpacity } from "react-native";
+import React, { useState } from "react";
+import { View, Text, TouchableOpacity, TextInput,AsyncStorage  } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import Button from "./components/Button";
 
-function HomeScreen({ navigation }) {
+//MainPage screen
+function HomeScreen({ navigation, route }) {
+  const[RealEmail,Setrealemail]=useState(route.params?.email)
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+      <TextInput value={RealEmail}></TextInput>
+      <TextInput placeholder="Password"></TextInput>
+      <Text>{route.params?.email}</Text>
+      <Text>{route.params?.password}</Text>
       <Button
-        title="manage products"
+        title="Signup"
         onPress={() => navigation.navigate("productlist")}
         style={{
           padding: 10,
           borderRadius: 20,
           marginTop: 20,
-          backgroundColor: "Orange",
+          backgroundColor: "Orange",  
         }}
       />
       <Button
-        title="manage employees"
+        title="Login"
         onPress={() => navigation.navigate("EmployeesList")}
         style={{
           padding: 10,
@@ -45,10 +51,7 @@ function Productdetails({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View>
-        <Text>
-          1#product price is 100$
-          2# product price is 500$
-        </Text>
+        <Text>1#product price is 100$ 2# product price is 500$</Text>
       </View>
       <Button
         title="Go back"
@@ -63,26 +66,66 @@ function Productdetails({ navigation }) {
     </View>
   );
 }
+//Signup page and from this page we will send routes back.
 
-function productlist({ navigation }) {
+function productlist({ navigation,route }) {
+  const [Email, setemail] = useState("");
+  const [Password, SetPassword] = useState("");
+  const saveData=()=>{
+    console.log("saving")
+    AsyncStorage.setItem('@store1:key',JSON.stringify({username:Email,password:Password}))
+    setemail('')
+    SetPassword('')
+  }
+  const LoadData= async()=>{
+    console.log("loading")
+    // var key= await AsyncStorage.getAllKeys()
+    // console.log(key)
+    var item= await AsyncStorage.getItem('@store1:key')
+    var data=(JSON.parse(item))
+    console.log(data.username)
+    console.log(data.password)
+
+    
+    console.log('Loading Done!')
+  }
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View>
-        <TouchableOpacity  
-       onPress={() => navigation.navigate("Productdetails")}>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-          1# product1
-         
-           </Text>
-           </TouchableOpacity>
-           <TouchableOpacity
-           onPress={() => navigation.navigate("Productdetails")}>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-          
-           2# product2
-           </Text>
-           </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Productdetails")}>
+          <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+            1# Enter your email
+          </Text>
+          <TextInput
+            placeholder="Yourname"
+            value={Email}
+            onChangeText={(text) => {
+              setemail(text);
+            }}
+          ></TextInput>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Productdetails")}>
+          <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+            2# Enter you password
+          </Text>
+          <TextInput
+            underlineColorAndroid="transparent"
+            placeholder="Password"  
+            value={Password}          
+            onChangeText={(text) => {
+              SetPassword(text);
+            }}
+          ></TextInput>
+        </TouchableOpacity>
       </View>
+      <Button  
+      title="Savedata"
+      onPress={saveData}
+      />
+       <Button  
+      title="Load"
+      onPress={LoadData}
+      />
       <Button
         title="Go to productdetails"
         onPress={() => navigation.navigate("Productdetails")}
@@ -95,7 +138,11 @@ function productlist({ navigation }) {
       />
       <Button
         title="Go back"
-        onPress={() => navigation.goBack()}
+        onPress={() =>
+          navigation.navigate('HomeScreen',{
+            params: { email: Email ,password:Password},
+          })
+        }
         style={{
           padding: 10,
           borderRadius: 20,
@@ -110,17 +157,15 @@ function productlist({ navigation }) {
 function Employeesdetails({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-       <View>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
+      <View>
+        <Text style={{ flexDirection: "column", justifyContent: "center" }}>
           1# employee1 name: zain designation:engineer
-    
-           </Text>
+        </Text>
       </View>
       <View>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
- 
+        <Text style={{ flexDirection: "column", justifyContent: "center" }}>
           2# emloyee2 name:arsalan designation:marketing
-           </Text>
+        </Text>
       </View>
       <Button
         title="Go back"
@@ -139,20 +184,16 @@ function OrderList({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
       <View>
-        <TouchableOpacity  
-       onPress={() => navigation.navigate("Orderdetails")}>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-          1# Order1
-         
-           </Text>
-           </TouchableOpacity>
-           <TouchableOpacity
-           onPress={() => navigation.navigate("Orderdetails")}>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-          
-           2# Order2
-           </Text>
-           </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Orderdetails")}>
+          <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+            1# Order1
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Orderdetails")}>
+          <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+            2# Order2
+          </Text>
+        </TouchableOpacity>
       </View>
       <Button
         title="Go to order details"
@@ -168,7 +209,6 @@ function OrderList({ navigation }) {
       />
       <Button
         title="Go back"
-        
         onPress={() => navigation.goBack()}
         style={{
           padding: 10,
@@ -183,16 +223,15 @@ function OrderList({ navigation }) {
 function Orderdetails({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-       <View>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-          1# order1 Customer info:japan  orderdate :12,2,21 shipping :california
-    
-           </Text>
+      <View>
+        <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+          1# order1 Customer info:japan orderdate :12,2,21 shipping :california
+        </Text>
       </View>
       <View>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-        2# order1 Customer info:japan  orderdate :12,2,21 shipping :california
-           </Text>
+        <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+          2# order1 Customer info:japan orderdate :12,2,21 shipping :california
+        </Text>
       </View>
       <Button
         title="go back"
@@ -210,21 +249,21 @@ function Orderdetails({ navigation }) {
 function Employeeslist({ navigation }) {
   return (
     <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-         <View>
-        <TouchableOpacity  
-       onPress={() => navigation.navigate("Employeesdetails")}>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-          1# employee
-         
-           </Text>
-           </TouchableOpacity>
-           <TouchableOpacity
-           onPress={() => navigation.navigate("Employeesdetails")}>
-        <Text style={{flexDirection:"column",justifyContent:"center"}}>
-          
-           2# employee
-           </Text>
-           </TouchableOpacity>
+      <View>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Employeesdetails")}
+        >
+          <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+            1# employee
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => navigation.navigate("Employeesdetails")}
+        >
+          <Text style={{ flexDirection: "column", justifyContent: "center" }}>
+            2# employee
+          </Text>
+        </TouchableOpacity>
       </View>
       <Button
         title="go to employees details"
